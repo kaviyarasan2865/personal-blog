@@ -14,7 +14,11 @@ interface Blog {
   createdAt: string;
 }
 
-const page = () => {
+interface Error {
+  error: string;
+}
+
+const Page = () => {
   const router = useRouter();
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -52,12 +56,27 @@ const page = () => {
         toast.success('Blog deleted successfully');
         setBlogs(blogs.filter(blog => blog._id !== id));
       } else {
-        const data = await response.json();
+        const data: Error = await response.json();
         throw new Error(data.error || 'Failed to delete blog');
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error deleting blog:', error);
-      toast.error(error.message || 'Failed to delete blog');
+      if (error instanceof Error && error.message.includes('unauthorized')) {
+        toast.error('Unauthorized access');
+        router.push('/admin/login');
+      } else if (error instanceof Error) {
+        toast.error(error.message || 'Failed to delete blog');
+      } else if (typeof error === 'object' && error !== null && 'error' in error) {
+        const errorMsg = (error as Error).error;
+        if (errorMsg.includes('unauthorized')) {
+          toast.error('Unauthorized access');
+          router.push('/admin/login');
+        } else {
+          toast.error(errorMsg || 'Failed to delete blog');
+        }
+      } else {
+        toast.error('Failed to delete blog');
+      }
     } finally {
       setIsDeleting(false);
     }
@@ -128,4 +147,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

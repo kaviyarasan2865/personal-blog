@@ -6,7 +6,7 @@ import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-interface Blog {
+interface BlogData {
   _id: string;
   title: string;
   subTitle: string;
@@ -33,7 +33,7 @@ const EditBlogPage = ({ params }: { params: { id: string } }) => {
           throw new Error('Blog not found');
         }
         const data = await response.json();
-        const blog = data.blog;
+        const blog: BlogData = data.blog;
         
         setTitle(blog.title);
         setSubtitle(blog.subTitle);
@@ -105,9 +105,14 @@ const EditBlogPage = ({ params }: { params: { id: string } }) => {
         toast.success('Blog updated successfully');
         router.push('/admin/dashboard/blogs');
       }
-    } catch (error: any) {
-      console.error("Error updating blog:", error);
-      toast.error(error?.response?.data?.error || "Failed to update blog");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error("Error updating blog:", error);
+        toast.error(error.response?.data?.error || "Failed to update blog");
+      } else {
+        console.error("An unknown error occurred:", error);
+        toast.error("An unknown error occurred");
+      }
     }
   };
 

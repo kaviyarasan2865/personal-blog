@@ -27,8 +27,14 @@ const LoginPage = () => {
     
       router.push("/admin/dashboard")
       toast.success("Login Successfull")
-    } catch (err:any) {
-      setError(err.message);
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+        toast.error('Login failed. Please check your credentials.');
+      } else {
+        setError('An unknown error occurred');
+        toast.error('Login failed. Please try again.');
+      }
     }
     setLoading(false);
   };

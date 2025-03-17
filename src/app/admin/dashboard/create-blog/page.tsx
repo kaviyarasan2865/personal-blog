@@ -62,13 +62,24 @@ const Page = () => {
           setImg(null);
 
         }
-      } catch (error: any) {
-        console.error("Error creating blog:", error);
-        toast.error(error?.response?.data?.error || "Failed to create blog");
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          console.error("Error creating blog:", error);
+          if (error.response?.status === 401) {
+            toast.error('Unauthorized access');
+            router.push('/admin/login');
+          } else {
+            toast.error(error.response?.data?.error || "Failed to create blog");
+          }
+        } else {
+          console.error("An unknown error occurred:", error);
+          toast.error("Failed to create blog");
+        }
       }
     };
 
     reader.onerror = (error) => {
+        console.error("Error reading image file:", error);
       toast.error('Error reading image file');
     };
   };
