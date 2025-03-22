@@ -4,12 +4,12 @@ import connectDB from "@/utils/mongodb";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectDB();
     
-    const { id } = params;
+    const { id } = await params;
     const blog = await Blog.findById(id);
     
     if (!blog) {
@@ -25,12 +25,12 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectDB();
     
-    const { id } = params;
+    const { id } = await params;
     const body = await req.json();
     const { title, subTitle, content, tags, coverpic } = body;
 
