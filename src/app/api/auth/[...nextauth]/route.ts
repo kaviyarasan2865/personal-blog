@@ -1,8 +1,9 @@
-import NextAuth from "next-auth";
+import NextAuth, { Session } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import connectDB from "@/utils/mongodb";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
+import { JWT } from "next-auth/jwt";
 
 const handler = NextAuth({
   providers: [
@@ -19,10 +20,10 @@ const handler = NextAuth({
           }
 
           await connectDB();
-          const user = await User.findOne({ email: credentials.email });
+          const user = await User.findOne({ email: credentials.email.toLowerCase().trim() });
 
           if (!user) {
-            throw new Error("User not found");
+            throw new Error("Invalid email or password");
           }
 
           const isPasswordValid = await bcrypt.compare(
@@ -31,16 +32,16 @@ const handler = NextAuth({
           );
 
           if (!isPasswordValid) {
-            throw new Error("Invalid Password");
+            throw new Error("Invalid email or password");
           }
 
           return {
             id: user._id.toString(),
             email: user.email,
-            authProvider: user.authProvider,
+            authProvider: user.authProvider || "credentials",
           };
         } catch (error) {
-          console.error("\n❌ Manual Login Error:", error);
+          console.error("Authentication error:", error);
           throw error;
         }
       },
@@ -56,18 +57,23 @@ const handler = NextAuth({
       return token;
     },
 
-    async session({ session, token }) {
+    async session({ session, token }: { session: Session, token: JWT }) {
       if (session.user) {
         session.user.id = token.id as string;
-        session.user.email = token.email ?? '';
-        session.user.authProvider = token.authProvider as string | undefined;
+        session.user.email = token.email as string;
+        session.user.authProvider = token.authProvider as string;
       }
       return session;
     },
   },
+  pages: {
+    signIn: "/login",
+    error: "/login",
+  },
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
   },
 });
 
