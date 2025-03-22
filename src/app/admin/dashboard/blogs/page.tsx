@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { FiEdit, FiTrash2 } from 'react-icons/fi'
+import { Edit, Trash2, View } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { toast } from 'react-hot-toast'
@@ -122,20 +122,27 @@ const Page = () => {
                 </span>
                 <div className='flex gap-3'>
                   <button 
+                    onClick={() => router.push(`/admin/dashboard/blogs/${blog._id}`)}
+                    className='text-green-600 hover:text-green-800 hover:cursor-pointer transition duration-200'
+                    title='View blog'
+                  >
+                    <View size={20} />
+                  </button>
+                  <button 
                     onClick={() => handleEdit(blog._id)}
-                    className='text-blue-600 hover:text-blue-800 transition duration-200'
+                    className='text-blue-600 hover:text-blue-800 hover:cursor-pointer transition duration-200'
                     title='Edit blog'
                     disabled={isDeleting}
                   >
-                    <FiEdit size={20} />
+                    <Edit size={20} />
                   </button>
                   <button 
                     onClick={() => handleDelete(blog._id)}
-                    className='text-red-600 hover:text-red-800 transition duration-200'
+                    className='text-red-600 hover:text-red-800 hover:cursor-pointer transition duration-200'
                     title='Delete blog'
                     disabled={isDeleting}
                   >
-                    <FiTrash2 size={20} />
+                    <Trash2 size={20} />
                   </button>
                 </div>
               </div>

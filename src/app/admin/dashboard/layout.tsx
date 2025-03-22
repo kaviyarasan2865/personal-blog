@@ -11,9 +11,8 @@ export default function DashboardLayout({
 
 
   return (
-    <div className="flex flex-col h-screen bg-[#ffffff] mx-60 p-10">
+    <div className="flex flex-col h-screen bg-[#ffffff]">
       <Navbar/>
-      
       <main className="flex-1 overflow-auto ">
     
         
