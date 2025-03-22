@@ -15,7 +15,8 @@ interface BlogData {
   coverpic: string;
 }
 
-const EditBlogPage = ({ params }: { params: { id: string } }) => {
+const EditBlogPage = ({ params }: { params: Promise<{ id: string }> }) => {
+  const resolvedParams = React.use(params);
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [content, setContent] = useState("");
@@ -28,7 +29,7 @@ const EditBlogPage = ({ params }: { params: { id: string } }) => {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const response = await fetch(`/api/admin/blog/${params.id}`);
+        const response = await fetch(`/api/admin/blog/${resolvedParams.id}`);
         if (!response.ok) {
           throw new Error('Blog not found');
         }
@@ -49,7 +50,7 @@ const EditBlogPage = ({ params }: { params: { id: string } }) => {
     };
 
     fetchBlog();
-  }, [params.id, router]);
+  }, [resolvedParams.id, router]);
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && e.currentTarget.value.trim() !== "") {
@@ -93,7 +94,7 @@ const EditBlogPage = ({ params }: { params: { id: string } }) => {
         reader.readAsDataURL(newImage);
       }) : coverpic;
 
-      const response = await axios.put(`/api/admin/blog/${params.id}`, {
+      const response = await axios.put(`/api/admin/blog/${resolvedParams.id}`, {
         title,
         subTitle: subtitle,
         content,
