@@ -109,7 +109,7 @@ const BlogDetailPage = ({ params }: { params: Promise<{ id: string }> }) => {
           Back to Blogs
         </button>
         <button 
-          onClick={() => router.push(`/admin/dashboard/blogs/edit/${blogData._id}`)}
+          onClick={() => router.push(`/admin/dashboard/edit-blog/${blogData._id}`)}
           className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
         >
           Edit Blog
