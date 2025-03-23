@@ -175,8 +175,10 @@ const BlogLandingPage = () => {
             <div className="relative">
               <div className="absolute inset-0 bg-amber-300 rounded-lg rotate-3 transform-gpu"></div>
               <Image
-                src="/placeholder.svg?height=400&width=600"
+                src="/images/placeholder.jpg"
                 alt="Blog illustration"
+                width={600}
+                height={400}
                 className="relative rounded-lg shadow-xl max-w-full h-auto hover:scale-[1.02] transition-transform duration-300"
               />
               <div className="absolute -bottom-4 -right-4 bg-white p-3 rounded-lg shadow-lg animate-[float_3s_ease-in-out_infinite]">
