@@ -1,7 +1,9 @@
 "use client"
 import { useState, useEffect } from "react"
-import { Search, Menu, X, ChevronRight, Github, Twitter, Linkedin, ArrowRight, Mail, Sun, Moon } from "lucide-react"
+import { Search, Menu, X, ChevronRight, Github, Twitter, Linkedin, ArrowRight, Mail } from "lucide-react"
 import { toast } from "react-hot-toast"
+import Image from "next/image"
+import Link from "next/link"
 
 interface Blog {
   _id: string;
@@ -51,15 +53,15 @@ const BlogLandingPage = () => {
         } z-10`}
       >
         <div className="container mx-auto px-4 flex justify-between items-center">
-          <a
+          <Link
             href="/"
             className="text-xl md:text-2xl font-bold text-amber-600 transition-all duration-300 hover:scale-105 hover:text-amber-500"
           >
             <span className="relative">
-              Kaviyarasan's Blog
+              Kaviyarasan&apos;s Blog
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-500 transition-all duration-300 group-hover:w-full"></span>
             </span>
-          </a>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
@@ -75,12 +77,12 @@ const BlogLandingPage = () => {
             </div>
             <nav className="flex space-x-6">
               {["Blogs", "Dev Portfolio"].map((item) => (
-                <a key={item} href={`/${item.toLowerCase().replace(" ", "-")}`} className="relative group py-2">
+                <Link key={item} href={`/${item.toLowerCase().replace(" ", "-")}`} className="relative group py-2">
                   <span className="text-gray-700 group-hover:text-amber-600 transition-colors duration-300">
                     {item}
                   </span>
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-amber-500 transition-all duration-300 group-hover:w-full"></span>
-                </a>
+                </Link>
               ))}
             </nav>
             
@@ -116,13 +118,13 @@ const BlogLandingPage = () => {
             </div>
             <nav className="flex flex-col space-y-4">
               {["Blogs", "Dev Portfolio"].map((item) => (
-                <a
+                <Link
                   key={item}
                   href={`/${item.toLowerCase().replace(" ", "-")}`}
                   className="py-2 px-3 hover:bg-amber-50 rounded-lg transition-colors duration-300 hover:text-amber-600"
                 >
                   {item}
-                </a>
+                </Link>
               ))}
             </nav>
           </div>
@@ -154,25 +156,25 @@ const BlogLandingPage = () => {
               learning and discovery.
             </p>
             <div className="flex flex-wrap gap-4">
-              <a
+              <Link
                 href="/blogs"
                 className="inline-flex items-center px-6 py-3 bg-amber-500 text-white font-medium rounded-full transition-all duration-300 hover:bg-amber-600 hover:shadow-lg hover:translate-y-[-2px] active:translate-y-[0px]"
               >
                 Read My Blog
                 <ChevronRight className="ml-2 h-5 w-5 animate-[bounceX_1.5s_ease-in-out_infinite]" />
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/about"
                 className="inline-flex items-center px-6 py-3 bg-white text-amber-600 font-medium rounded-full border border-amber-200 transition-all duration-300 hover:bg-amber-50 hover:shadow-md hover:translate-y-[-2px] active:translate-y-[0px]"
               >
                 About Me
-              </a>
+              </Link>
             </div>
           </div>
           <div className="md:w-1/2 flex justify-center animate-[fadeInRight_0.8s_ease-out_forwards]">
             <div className="relative">
               <div className="absolute inset-0 bg-amber-300 rounded-lg rotate-3 transform-gpu"></div>
-              <img
+              <Image
                 src="/placeholder.svg?height=400&width=600"
                 alt="Blog illustration"
                 className="relative rounded-lg shadow-xl max-w-full h-auto hover:scale-[1.02] transition-transform duration-300"
@@ -197,13 +199,13 @@ const BlogLandingPage = () => {
               <div className="absolute -bottom-2 left-0 w-1/3 h-1 bg-amber-300 rounded-full"></div>
             </div>
             {blogPosts.length > 3 && (
-              <a
+              <Link
                 href="/blogs"
                 className="group text-amber-600 hover:text-amber-700 transition-colors inline-flex items-center font-medium"
               >
                 See all blogs
                 <ArrowRight className="ml-1 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </a>
+              </Link>
             )}
           </div>
 
@@ -215,7 +217,7 @@ const BlogLandingPage = () => {
                 style={{ animationDelay: `${index * 150}ms` }}
               >
                 <div className="relative overflow-hidden">
-                  <img
+                  <Image
                     src={post.coverpic || "/placeholder.svg"}
                     alt={post.title}
                     className="w-full h-48 object-cover transition-transform duration-700 group-hover:scale-110"
@@ -227,16 +229,16 @@ const BlogLandingPage = () => {
                 <div className="p-6">
                   <span className="text-xs font-semibold text-amber-600 uppercase tracking-wider">{post.createdAt}</span>
                   <h3 className="text-xl font-bold mt-2 mb-3 text-gray-800 group-hover:text-amber-600 transition-colors">
-                    <a href={`/blog/${post._id}`}>{post.title}</a>
+                    <Link href={`/blog/${post._id}`}>{post.title}</Link>
                   </h3>
                   <p className="text-gray-600 mb-4">{post.subTitle}</p>
-                  <a
+                  <Link
                     href={`/blog/${post._id}`}
                     className="inline-flex items-center text-amber-600 hover:text-amber-700 transition-colors font-medium group/link"
                   >
                     Read more
                     <ArrowRight className="ml-1 h-4 w-4 transition-transform duration-300 group-hover/link:translate-x-1" />
-                  </a>
+                  </Link>
                 </div>
               </div>
             ))}
@@ -285,28 +287,28 @@ const BlogLandingPage = () => {
             <div className="md:col-span-2">
               <h3 className="text-xl font-bold mb-4 text-gray-800">About Me</h3>
               <p className="text-gray-600 mb-4 leading-relaxed">
-                I'm a passionate web developer sharing my journey, insights, and knowledge about modern web development.
+                I&apos;m a passionate web developer sharing my journey, insights, and knowledge about modern web development.
                 Through this blog, I aim to help others learn and grow in their development careers.
               </p>
               <div className="flex space-x-4">
-                <a
+                <Link
                   href="#"
                   className="w-10 h-10 flex items-center justify-center rounded-full bg-amber-100 text-amber-600 hover:bg-amber-200 transition-colors duration-300"
                 >
                   <Github className="h-5 w-5" />
-                </a>
-                <a
+                </Link>
+                <Link
                   href="#"
                   className="w-10 h-10 flex items-center justify-center rounded-full bg-amber-100 text-amber-600 hover:bg-amber-200 transition-colors duration-300"
                 >
                   <Twitter className="h-5 w-5" />
-                </a>
-                <a
+                </Link>
+                <Link
                   href="#"
                   className="w-10 h-10 flex items-center justify-center rounded-full bg-amber-100 text-amber-600 hover:bg-amber-200 transition-colors duration-300"
                 >
                   <Linkedin className="h-5 w-5" />
-                </a>
+                </Link>
               </div>
             </div>
             <div>
@@ -314,13 +316,13 @@ const BlogLandingPage = () => {
               <ul className="space-y-3 text-gray-600">
                 {["Home", "Blogs", "Portfolio", "About", "Contact"].map((link) => (
                   <li key={link}>
-                    <a
+                    <Link
                       href={`/${link.toLowerCase()}`}
                       className="group inline-flex items-center hover:text-amber-600 transition-colors duration-300"
                     >
                       <ArrowRight className="mr-2 h-4 w-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
                       {link}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -329,19 +331,19 @@ const BlogLandingPage = () => {
               <h3 className="text-xl font-bold mb-4 text-gray-800">Categories</h3>
               <div className="flex flex-wrap gap-2">
                 {["React", "JavaScript", "TypeScript", "CSS", "Design", "Development", "Career"].map((tag) => (
-                  <a
+                  <Link
                     key={tag}
                     href={`/category/${tag.toLowerCase()}`}
                     className="px-3 py-1 bg-amber-50 text-amber-700 rounded-full text-sm hover:bg-amber-100 transition-colors duration-300"
                   >
                     {tag}
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>
           </div>
           <div className="text-center text-gray-500 pt-8 border-t border-gray-100">
-            <p>&copy; {new Date().getFullYear()} Kaviyarasan's Blog. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} Kaviyarasan&apos;s Blog. All rights reserved.</p>
           </div>
         </div>
       </footer>
